@@ -27,6 +27,7 @@
                     <button type="button" id="booking-btn" class="booking-btn-wrapper">Book a table</button>
             </div>
             <div id='container-wrapper' class="container-wrapper">
+                <form id="form"></form>
                 <!--<div class="form-container">
                     <form id="form">
                         <input type="text" placeholder="Name" class="input" />
@@ -38,9 +39,10 @@
                             <option value="family">Family</option>
                             <option value="organization">Organization</option>
                         </select>
-                        <button type="submit" class="btn">Book</button>
+                        <button type="submit" class="btn" isDisable="disable">Book</button>
                     </form>
                 </div>-->
+                <p id="valid-para" class="hidden">Please fill all the input fields</p>
             </div>
         </section>
         <section id="section2">
@@ -52,7 +54,6 @@
                 <p class="section2-para">Our chef cooks the most delicious food for you</p>
             </div>
         </section>
-
     </main>
     <script src="main.js"></script>
 </body>

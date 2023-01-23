@@ -6,55 +6,109 @@ const paragraph = document.getElementById("valid-para")
 bookingBtn.addEventListener("click", bookBtnHandler)
 form.addEventListener("submit", submitHandler);
 
+function showMessage(input, message, type) {
+    const msg = input.parentElement.querySelector('small');
+    msg.innerText = message;
+    msg.classList.add = type ? 'success' : 'error';
+    return type;
+}
+
+function showSuccess(input) {
+    return showMessage(input, "", true)
+}
+
+function showError(input, message) {
+    return showMessage(input, "Required", false);
+}
+
+function hasValue(input){
+    if(input.value.length === 0) {
+        return showError(input);
+    }
+    return showSuccess(input);
+}
+
+const dataCollection = async (user) => {
+    const res = await fetch('http://localhost:3000/users', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user)
+    });
+    const data = await res.json();
+    console.log(data)
+    user = data;
+}
+
 function submitHandler(e) {
     e.preventDefault();
-    const nameInput = document.getElementById('name');
-    const phoneInput = document.getElementById('phone');
-    const dateInput = document.getElementById('date');
-    const timeInput = document.getElementById('time')
-    const bookingSelect = document.getElementById('booking');
-    const nameInputValue = nameInput.value;
-    const phoneInputValue = phoneInput.value;
-    const dateInputValue = dateInput.value;
-    const timeInputValue = timeInput.value;
-    const bookingSelectValue = bookingSelect.value;
+    let name = document.getElementById('name');
+    let phone = document.getElementById('phone');
+    let date = document.getElementById('date');
+    let time = document.getElementById('time');
+    let booking = document.getElementById('booking');
 
-    if (nameInputValue.length === 0 || phoneInputValue.length === 0 || dateInputValue.length === 0 || timeInputValue.length === 0 || bookingSelectValue.length === 0) {
-        paragraph.classList.remove('hidden')
-        setTimeout(() => {paragraph.classList.add('hidden')},"2000")
-        return
-    };
+    const validName = hasValue(name);
+    const validPhone = hasValue(phone);
+    const validDate = hasValue(date);
+    const validTime = hasValue(time);
+    const validBooking = hasValue(booking);
     
-    clearForm();
+    if(validName && validPhone && validDate && validTime && validBooking) {
+        let formData = {
+            name: name.value, 
+            phone: phone.value,
+            date: date.value,
+            time: time.value,
+            booking: booking.value
+        }
+        dataCollection(formData)
+        //form.submit();
+    }
+
+    name = '';
+    phone = '';
+    date = '';
+    time = '';
+    booking = '';
+  
 }
 
 function bookBtnHandler(e) {
     let div = document.createElement('div')
     div.innerHTML = `
-        <input type="text" placeholder="Name" id='name' class="input" />
-        <input type="tel" placeholder="Phone" id='phone' class="input" />
-        <input type="date" min="01/01/2023"  id='date' max="12/31/2023" placeholder="M/D/YYYY" class="input" />
-        <input type="time" min="7:00" max="20:00" placeholder="Time" id='time' class="input" />
-        <select id='booking' class="input">
-            <option value="person" selected>person</option>
-            <option value="family">Family</option>
-            <option value="organization">Organization</option>
-        </select>
-        <button type="submit" class="btn" >Book</button>
+        <div>
+            <input type="text" placeholder="Name" id='name' name='name' class="input" />
+            <small></small>
+        </div>
+        <div>
+            <input type="tel" placeholder="Phone" id='phone' name='phone' class="input" />
+            <small></small>
+        </div>
+        <div>
+            <input type="date" id='date' value="" placeholder="M/D/YYYY" name='date' class="input" />
+            <small></small>
+        </div>
+        <div>
+            <input type="time" placeholder="HH:MM" id='time' value="" name='time' class="input" />
+            <small></small>
+        </div>
+        <div>
+            <select id='booking' name='value' class="input">
+                <option value="person" selected>person</option>
+                <option value="family">Family</option>
+                <option value="organization">Organization</option>
+            </select>
+            <small></small>
+        </div>
+        <button type="submit" class="btn">Book</button>
     `
     div.classList.add('form-container')
     if (!form.hasChildNodes()) {
         form.appendChild(div)
     } 
+    //form.className = "hidden" === 'active' ? 'inactivate' : 'activate';
     form.toggleAttribute("hidden");
 }
 
-
-
-function clearForm() {
-    nameInput = '';
-    phoneInput = '';
-    dateInput = '';
-    timeInput = '';
-    bookingSelect = '';
-}

@@ -1,0 +1,28 @@
+{
+  "users": [
+    {
+      "name": "funmi",
+      "phone": "07065136490",
+      "date": "2023-01-23",
+      "time": "14:05",
+      "booking": "family",
+      "id": 1
+    },
+    {
+      "name": "funmi",
+      "phone": "09056453421",
+      "date": "2023-01-24",
+      "time": "12:00",
+      "value": "family",
+      "id": 2
+    },
+    {
+      "name": "Aniekan",
+      "phone": "09056453421",
+      "date": "2023-01-25",
+      "time": "13:30",
+      "value": "family",
+      "id": 3
+    }
+  ]
+}
